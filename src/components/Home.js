@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Recipe from './Recipe';
-import { useNavigate } from 'react-router-dom'
+import { BrowserRouter as Navigate, useNavigate } from 'react-router-dom';
 
 function Home(){
     var [recipes, setRecipes] = useState([]);
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     useEffect(()=>{
+        if(!localStorage.getItem('token')){
+            return navigate('/users/sign-in');
+        }
         axios({
             method: "get",
             url: "http://localhost:8000/api",
@@ -17,25 +20,23 @@ function Home(){
         .then((data) => {
             setRecipes(data.data.recipes);
             console.log(data);
+        })
+        .catch(err => {
+            navigate('/users/sign-in')
         });
-        
-        if(!localStorage.getItem('token')){
-            navigate('/users/sign-in');
-        }
 
-    }, [recipes]);
+    }, []);
     
     return(
+        
         <div>
-            <h2 className='mt-4'>All</h2>
-            <div className='col d-flex flex-wrap justify-content-center'>
-            { 
-                // localStorage.getItem('token')
-                recipes.map((recipe) => <Recipe recipe={recipe} key={recipe._id}></Recipe>)
-                // : navigate('/users/sign-in')
-            }
+                <h2 className='mt-4'>All</h2>
+                <div className='col d-flex flex-wrap justify-content-center'>
+                    { 
+                        recipes.map((recipe) => <Recipe recipe={recipe} key={recipe._id}></Recipe>)
+                    }
+                </div>
             </div>
-        </div>
     )
 }
 

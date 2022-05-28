@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 export default function SignUp(){
 
@@ -8,6 +8,12 @@ export default function SignUp(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+
+    useEffect(() => {
+        if(localStorage.getItem('token')){
+            return navigate('/');
+        }
+    })
 
     const handleSubmit = (e) => {
         e.preventDefault();

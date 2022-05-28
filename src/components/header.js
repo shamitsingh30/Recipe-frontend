@@ -7,7 +7,7 @@ export default function Header(){
     const handleLogOut = (e) => {
         e.preventDefault();
         localStorage.removeItem('token');
-        navigate('/');
+        navigate('/users/sign-in');
     }
     return(
     <nav className="navbar navbar-expand-lg navbar-light" style={{backgroundColor: '#e3f2fd'}}>
@@ -26,7 +26,7 @@ export default function Header(){
                 <li className="nav-item">
                     {
                         localStorage.getItem('token')
-                        ? <a className="nav-link" aria-current="page" href="/users/profile">Profile</a>
+                        ? <a className="nav-link" aria-current="page" href="/profile">Profile</a>
                         : <a className="nav-link" aria-current="page" href="/users/sign-in">Sign In</a>
                     }
                       
